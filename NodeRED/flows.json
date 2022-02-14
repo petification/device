@@ -41,10 +41,10 @@
         "protocolVersion": "4",
         "keepalive": "60",
         "cleansession": true,
-        "birthTopic": "",
+        "birthTopic": "aloha",
         "birthQos": "1",
         "birthRetain": "true",
-        "birthPayload": "",
+        "birthPayload": "aloha baby",
         "birthMsg": {},
         "closeTopic": "",
         "closeQos": "1",
@@ -132,7 +132,8 @@
         "y": 60,
         "wires": [
             [
-                "9e344bb29a3015bd"
+                "9e344bb29a3015bd",
+                "88f52463bfa7440d"
             ]
         ]
     },
@@ -189,6 +190,83 @@
         "broker": "90fcd8de4a4abf8c",
         "x": 610,
         "y": 60,
+        "wires": []
+    },
+    {
+        "id": "88f52463bfa7440d",
+        "type": "function",
+        "z": "1549c8010dfcd079",
+        "name": "SaveCID",
+        "func": "flow.set('cid', JSON.parse(msg.payload).uuid);",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "728feaaa1d59a4fc",
+        "type": "inject",
+        "z": "1549c8010dfcd079",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 180,
+        "wires": [
+            [
+                "8490b1b7ff87acc6"
+            ]
+        ]
+    },
+    {
+        "id": "8490b1b7ff87acc6",
+        "type": "function",
+        "z": "1549c8010dfcd079",
+        "name": "",
+        "func": "msg.payload = flow.get('cid');\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 180,
+        "wires": [
+            [
+                "03b5412241960a26"
+            ]
+        ]
+    },
+    {
+        "id": "03b5412241960a26",
+        "type": "debug",
+        "z": "1549c8010dfcd079",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 430,
+        "y": 180,
         "wires": []
     }
 ]
