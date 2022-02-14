@@ -60,6 +60,31 @@
         "h": 162
     },
     {
+        "id": "7bd713a06d7f8813",
+        "type": "group",
+        "z": "1549c8010dfcd079",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "1612ba83c48243be",
+            "589f5f324322e5f3",
+            "20739795f61ecd81",
+            "e9327013460ddb85",
+            "470fcc6957b18726"
+        ],
+        "x": 34,
+        "y": 539,
+        "w": 632,
+        "h": 242
+    },
+    {
         "id": "cfc29aa6332ee951",
         "type": "tls-config",
         "name": "",
@@ -320,6 +345,92 @@
         "info": "",
         "x": 130,
         "y": 400,
+        "wires": []
+    },
+    {
+        "id": "1612ba83c48243be",
+        "type": "inject",
+        "z": "1549c8010dfcd079",
+        "g": "7bd713a06d7f8813",
+        "name": "Every10Sec",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 150,
+        "y": 620,
+        "wires": [
+            [
+                "589f5f324322e5f3"
+            ]
+        ]
+    },
+    {
+        "id": "589f5f324322e5f3",
+        "type": "link call",
+        "z": "1549c8010dfcd079",
+        "g": "7bd713a06d7f8813",
+        "name": "TODO: Load Cell Measurement",
+        "links": [],
+        "timeout": "30",
+        "x": 310,
+        "y": 660,
+        "wires": [
+            [
+                "20739795f61ecd81"
+            ]
+        ]
+    },
+    {
+        "id": "20739795f61ecd81",
+        "type": "function",
+        "z": "1549c8010dfcd079",
+        "g": "7bd713a06d7f8813",
+        "name": "PrepareMQTTMSG",
+        "func": "const uname = flow.get('mqtt-uname');\nconst cid = flow.get('mqtt-cid');\nconst stopic = flow.get('scale-topic');\n\nmsg.topic = `users/${uname}/${cid}/scale/${stopic}`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 700,
+        "wires": [
+            [
+                "e9327013460ddb85"
+            ]
+        ]
+    },
+    {
+        "id": "e9327013460ddb85",
+        "type": "mqtt out",
+        "z": "1549c8010dfcd079",
+        "g": "7bd713a06d7f8813",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "90fcd8de4a4abf8c",
+        "x": 590,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "470fcc6957b18726",
+        "type": "comment",
+        "z": "1549c8010dfcd079",
+        "g": "7bd713a06d7f8813",
+        "name": "PublishScale",
+        "info": "",
+        "x": 130,
+        "y": 580,
         "wires": []
     }
 ]

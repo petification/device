@@ -5,5 +5,6 @@
     "http-host":    "petificationblue.ddns.net",
     "http-port":    "1880",
     "device-name":  "test-device",
-    "device-type":  3
+    "device-type":  3,
+    "scale-topic":  "water"
 }
