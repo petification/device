@@ -8,13 +8,6 @@
         "env": []
     },
     {
-        "id": "dfc8744e.285418",
-        "type": "tab",
-        "label": "Example usage of dynamic mqtt node (digitaloak-mqtt-in)",
-        "disabled": false,
-        "info": ""
-    },
-    {
         "id": "cfc29aa6332ee951",
         "type": "tls-config",
         "name": "",
@@ -59,48 +52,11 @@
         "sessionExpiry": ""
     },
     {
-        "id": "311f12a4.3d2b9e",
-        "type": "mqtt-broker",
-        "name": "",
-        "broker": "mqtt",
-        "port": "1883",
-        "clientid": "",
-        "usetls": false,
-        "compatmode": true,
-        "keepalive": "60",
-        "cleansession": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthPayload": "",
-        "closeTopic": "",
-        "closeQos": "0",
-        "closePayload": "",
-        "willTopic": "",
-        "willQos": "0",
-        "willPayload": ""
-    },
-    {
         "id": "44c53352041184d0",
         "type": "inject",
         "z": "1549c8010dfcd079",
         "name": "",
-        "props": [
-            {
-                "p": "conn.broker",
-                "v": "petificationblue.ddns.net",
-                "vt": "str"
-            },
-            {
-                "p": "conn.port",
-                "v": "8883",
-                "vt": "str"
-            },
-            {
-                "p": "conn.force",
-                "v": "true",
-                "vt": "bool"
-            }
-        ],
+        "props": [],
         "repeat": "",
         "crontab": "",
         "once": true,
@@ -110,7 +66,7 @@
         "y": 60,
         "wires": [
             [
-                "9056e8f911ae5bf5"
+                "04a4117bab063133"
             ]
         ]
     },
@@ -119,20 +75,19 @@
         "type": "http request",
         "z": "1549c8010dfcd079",
         "name": "",
-        "method": "POST",
+        "method": "use",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "https://petificationblue.ddns.net:1880/device/test-device/3",
+        "url": "",
         "tls": "cfc29aa6332ee951",
         "persist": false,
         "proxy": "",
         "authType": "bearer",
         "senderr": false,
-        "x": 250,
+        "x": 430,
         "y": 60,
         "wires": [
             [
-                "9e344bb29a3015bd",
                 "88f52463bfa7440d"
             ]
         ]
@@ -150,8 +105,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 630,
-        "y": 120,
+        "x": 490,
+        "y": 200,
         "wires": []
     },
     {
@@ -159,14 +114,14 @@
         "type": "function",
         "z": "1549c8010dfcd079",
         "name": "ConnectMQTT",
-        "func": "msg.action = \"connect\";\n\nconst CID = JSON.parse(msg.payload).uuid;\nconst USERNAME = \"petification\";\n\nconst setting = {\n    \n    // Basic host setting\n    \"broker\": \"petificationblue.ddns.net\",\n    \"port\": \"8883\",\n    \"clientid\": CID,\n    \n    // Boolean setting\n    \"force\": true,\n    \n    // Birth setting\n    \"birthTopic\": `users/${USERNAME}/${CID}/conn`,\n    \"birthQos\": \"1\",\n    \"birthRetain\": \"true\",\n    \"birthPayload\": `Device connected`,\n    \n    // Close setting\n    \"closeTopic\": `users/${USERNAME}/${CID}/disconn`,\n    \"closeQos\": \"1\",\n    \"closeRetain\": \"true\",\n    \"closePayload\": `Device disconnected`,\n\n    // Will setting\n    \"willTopic\": `users/${USERNAME}/${CID}/error`,\n    \"willQos\": \"1\",\n    \"willRetain\": \"true\",\n    \"willPayload\": `Device disconnected unexpectedly`,\n};\n\nmsg.broker = setting;\n\nreturn msg;",
+        "func": "msg.action = \"connect\";\n\nconst CID = flow.get('mqtt-cid');\nconst USERNAME = flow.get('mqtt-uname');\n\nconst setting = {\n    \n    // Basic host setting\n    \"broker\": flow.get('mqtt-broker'),\n    \"port\": flow.get('mqtt-port'),\n    \"clientid\": CID,\n    \n    // Boolean setting\n    \"force\": true,\n    \n    // Birth setting\n    \"birthTopic\": `users/${USERNAME}/${CID}/conn`,\n    \"birthQos\": \"1\",\n    \"birthRetain\": \"true\",\n    \"birthPayload\": `Device connected`,\n    \n    // Close setting\n    \"closeTopic\": `users/${USERNAME}/${CID}/disconn`,\n    \"closeQos\": \"1\",\n    \"closeRetain\": \"true\",\n    \"closePayload\": `Device disconnected`,\n\n    // Will setting\n    \"willTopic\": `users/${USERNAME}/${CID}/error`,\n    \"willQos\": \"1\",\n    \"willRetain\": \"true\",\n    \"willPayload\": `Device disconnected unexpectedly`,\n};\n\nmsg.broker = setting;\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 440,
-        "y": 60,
+        "x": 300,
+        "y": 140,
         "wires": [
             [
                 "59ba8900f8e6cb2c",
@@ -188,85 +143,80 @@
         "correl": "",
         "expiry": "",
         "broker": "90fcd8de4a4abf8c",
-        "x": 610,
-        "y": 60,
+        "x": 470,
+        "y": 140,
         "wires": []
     },
     {
         "id": "88f52463bfa7440d",
         "type": "function",
         "z": "1549c8010dfcd079",
-        "name": "SaveCID",
-        "func": "flow.set('cid', JSON.parse(msg.payload).uuid);",
+        "name": "SaveCid",
+        "func": "msg.settings['mqtt-cid'] = JSON.parse(msg.payload).uuid;\n\nfor(let prop in msg.settings) {\n    flow.set(prop, msg.settings[prop]);\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 420,
-        "y": 120,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "728feaaa1d59a4fc",
-        "type": "inject",
-        "z": "1549c8010dfcd079",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 100,
-        "y": 180,
+        "x": 600,
+        "y": 60,
         "wires": [
             [
-                "8490b1b7ff87acc6"
+                "8c4de33649991db9"
             ]
         ]
     },
     {
-        "id": "8490b1b7ff87acc6",
-        "type": "function",
-        "z": "1549c8010dfcd079",
-        "name": "",
-        "func": "msg.payload = flow.get('cid');\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 260,
-        "y": 180,
-        "wires": [
-            [
-                "03b5412241960a26"
-            ]
-        ]
-    },
-    {
-        "id": "03b5412241960a26",
+        "id": "8c4de33649991db9",
         "type": "debug",
         "z": "1549c8010dfcd079",
-        "name": "",
+        "name": "ShowSettings",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "settings",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 430,
-        "y": 180,
+        "x": 780,
+        "y": 60,
         "wires": []
+    },
+    {
+        "id": "f85036e9a20687e5",
+        "type": "complete",
+        "z": "1549c8010dfcd079",
+        "name": "",
+        "scope": [
+            "8c4de33649991db9"
+        ],
+        "uncaught": false,
+        "x": 110,
+        "y": 140,
+        "wires": [
+            [
+                "9e344bb29a3015bd"
+            ]
+        ]
+    },
+    {
+        "id": "04a4117bab063133",
+        "type": "function",
+        "z": "1549c8010dfcd079",
+        "name": "SaveSettings",
+        "func": "const settings = {\n    'mqtt-broker':  'petificationblue.ddns.net',\n    'mqtt-port':    '8883',\n    'mqtt-uname':   'petification',\n    'http-host':    'petificationblue.ddns.net',\n    'http-port':    '1880',\n    'device-name':  'test-device',\n    'device-type':  3,\n}\n\nmsg.method = \"POST\";\nmsg.url = `https://${settings['http-host']}:${settings['http-port']}/device/${settings['device-name']}/${settings['device-type']}`;\nmsg.settings = settings;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 60,
+        "wires": [
+            [
+                "9056e8f911ae5bf5"
+            ]
+        ]
     }
 ]
