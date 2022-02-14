@@ -85,6 +85,32 @@
         "h": 242
     },
     {
+        "id": "e3075d1d0e2c84a5",
+        "type": "group",
+        "z": "1549c8010dfcd079",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "67d0998e32d1e876",
+            "7784be1a1914ce50",
+            "99e20c1cf5082eb1",
+            "e0eb4acd7c5094aa",
+            "f227bd83f96b3295",
+            "e8d8d7ee5ad51579"
+        ],
+        "x": 34,
+        "y": 799,
+        "w": 812,
+        "h": 122
+    },
+    {
         "id": "cfc29aa6332ee951",
         "type": "tls-config",
         "name": "",
@@ -215,7 +241,7 @@
         "type": "mqtt out",
         "z": "1549c8010dfcd079",
         "g": "6c9c27cd818b31d9",
-        "name": "",
+        "name": "MQTTSetup",
         "topic": "",
         "qos": "",
         "retain": "",
@@ -225,7 +251,7 @@
         "correl": "",
         "expiry": "",
         "broker": "90fcd8de4a4abf8c",
-        "x": 490,
+        "x": 510,
         "y": 480,
         "wires": []
     },
@@ -427,10 +453,104 @@
         "type": "comment",
         "z": "1549c8010dfcd079",
         "g": "7bd713a06d7f8813",
-        "name": "PublishScale",
+        "name": "Publish Scale",
         "info": "",
         "x": 130,
         "y": 580,
+        "wires": []
+    },
+    {
+        "id": "67d0998e32d1e876",
+        "type": "mqtt in",
+        "z": "1549c8010dfcd079",
+        "g": "e3075d1d0e2c84a5",
+        "name": "",
+        "topic": "",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "90fcd8de4a4abf8c",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 1,
+        "x": 490,
+        "y": 880,
+        "wires": [
+            [
+                "e0eb4acd7c5094aa"
+            ]
+        ]
+    },
+    {
+        "id": "7784be1a1914ce50",
+        "type": "complete",
+        "z": "1549c8010dfcd079",
+        "g": "e3075d1d0e2c84a5",
+        "name": "",
+        "scope": [
+            "59ba8900f8e6cb2c"
+        ],
+        "uncaught": false,
+        "x": 130,
+        "y": 880,
+        "wires": [
+            [
+                "99e20c1cf5082eb1"
+            ]
+        ]
+    },
+    {
+        "id": "99e20c1cf5082eb1",
+        "type": "function",
+        "z": "1549c8010dfcd079",
+        "g": "e3075d1d0e2c84a5",
+        "name": "DynSubscribe",
+        "func": "const uname = flow.get('mqtt-uname');\nconst cid = flow.get('mqtt-cid');\n\nmsg.action = \"subscribe\";\nmsg.topic = `users/${uname}/${cid}/action/#`;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 880,
+        "wires": [
+            [
+                "67d0998e32d1e876"
+            ]
+        ]
+    },
+    {
+        "id": "e0eb4acd7c5094aa",
+        "type": "link out",
+        "z": "1549c8010dfcd079",
+        "g": "e3075d1d0e2c84a5",
+        "name": "",
+        "mode": "link",
+        "links": [],
+        "x": 595,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "f227bd83f96b3295",
+        "type": "comment",
+        "z": "1549c8010dfcd079",
+        "g": "e3075d1d0e2c84a5",
+        "name": "Action MSG Event Out",
+        "info": "",
+        "x": 720,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "e8d8d7ee5ad51579",
+        "type": "comment",
+        "z": "1549c8010dfcd079",
+        "g": "e3075d1d0e2c84a5",
+        "name": "Subscribe Action",
+        "info": "",
+        "x": 140,
+        "y": 840,
         "wires": []
     }
 ]
