@@ -111,6 +111,66 @@
         "h": 122
     },
     {
+        "id": "0da11b948e9e5d7e",
+        "type": "group",
+        "z": "1549c8010dfcd079",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "85d76ec7b3468c36",
+            "05cdabd1287caca3",
+            "69fab0941b68c7c8",
+            "a82654994aabc2a2",
+            "ce9ed35ac9b011cd",
+            "b540f8d48e09d36a",
+            "cfe5d857f1669497"
+        ],
+        "x": 834,
+        "y": 19,
+        "w": 612,
+        "h": 202
+    },
+    {
+        "id": "81c6b18a0a7ff777",
+        "type": "group",
+        "z": "1549c8010dfcd079",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "0b5c54b940dc5e78",
+            "9318b832c48d2580",
+            "c64e6f6da06c4d1d",
+            "58ae79aabd592218",
+            "7d1b1708b0dbeea2",
+            "9883cf25ef8be3a9",
+            "f066b70f7423db29",
+            "598ff0f9f1dfaf9f",
+            "5b58def28c5773ab",
+            "09d06466ea6064c5",
+            "edb4612ec2786b36",
+            "14a9051fe8a61915",
+            "9ff3e36c94fc8483"
+        ],
+        "x": 834,
+        "y": 239,
+        "w": 1172,
+        "h": 342
+    },
+    {
         "id": "cfc29aa6332ee951",
         "type": "tls-config",
         "name": "",
@@ -137,10 +197,10 @@
         "protocolVersion": "4",
         "keepalive": "60",
         "cleansession": true,
-        "birthTopic": "aloha",
+        "birthTopic": "",
         "birthQos": "1",
         "birthRetain": "true",
-        "birthPayload": "aloha baby",
+        "birthPayload": "",
         "birthMsg": {},
         "closeTopic": "",
         "closeQos": "1",
@@ -399,7 +459,9 @@
         "z": "1549c8010dfcd079",
         "g": "7bd713a06d7f8813",
         "name": "TODO: Load Cell Measurement",
-        "links": [],
+        "links": [
+            "ce9ed35ac9b011cd"
+        ],
         "timeout": "30",
         "x": 310,
         "y": 660,
@@ -524,9 +586,11 @@
         "type": "link out",
         "z": "1549c8010dfcd079",
         "g": "e3075d1d0e2c84a5",
-        "name": "",
+        "name": "Action MSG Event Out",
         "mode": "link",
-        "links": [],
+        "links": [
+            "0b5c54b940dc5e78"
+        ],
         "x": 595,
         "y": 880,
         "wires": []
@@ -551,6 +615,389 @@
         "info": "",
         "x": 140,
         "y": 840,
+        "wires": []
+    },
+    {
+        "id": "85d76ec7b3468c36",
+        "type": "exec",
+        "z": "1549c8010dfcd079",
+        "g": "0da11b948e9e5d7e",
+        "command": "echo 10",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "TODO: Load Scale Module",
+        "x": 1040,
+        "y": 140,
+        "wires": [
+            [
+                "05cdabd1287caca3"
+            ],
+            [
+                "a82654994aabc2a2"
+            ],
+            [
+                "69fab0941b68c7c8"
+            ]
+        ]
+    },
+    {
+        "id": "05cdabd1287caca3",
+        "type": "function",
+        "z": "1549c8010dfcd079",
+        "g": "0da11b948e9e5d7e",
+        "name": "PrepareReturn",
+        "func": "msg.payload = parseInt(msg.payload.trim());\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1280,
+        "y": 100,
+        "wires": [
+            [
+                "b540f8d48e09d36a"
+            ]
+        ]
+    },
+    {
+        "id": "69fab0941b68c7c8",
+        "type": "debug",
+        "z": "1549c8010dfcd079",
+        "g": "0da11b948e9e5d7e",
+        "name": "StatusOK",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "a82654994aabc2a2",
+        "type": "debug",
+        "z": "1549c8010dfcd079",
+        "g": "0da11b948e9e5d7e",
+        "name": "StatusError",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1270,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "ce9ed35ac9b011cd",
+        "type": "link in",
+        "z": "1549c8010dfcd079",
+        "g": "0da11b948e9e5d7e",
+        "name": "Scale Parameter",
+        "links": [],
+        "x": 875,
+        "y": 140,
+        "wires": [
+            [
+                "85d76ec7b3468c36"
+            ]
+        ]
+    },
+    {
+        "id": "b540f8d48e09d36a",
+        "type": "link out",
+        "z": "1549c8010dfcd079",
+        "g": "0da11b948e9e5d7e",
+        "name": "Scale Return",
+        "mode": "return",
+        "links": [],
+        "x": 1405,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "cfe5d857f1669497",
+        "type": "comment",
+        "z": "1549c8010dfcd079",
+        "g": "0da11b948e9e5d7e",
+        "name": "TODO: Load Cell Measurement",
+        "info": "",
+        "x": 990,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "0b5c54b940dc5e78",
+        "type": "link in",
+        "z": "1549c8010dfcd079",
+        "g": "81c6b18a0a7ff777",
+        "name": "Action MSG Event Listener",
+        "links": [
+            "e0eb4acd7c5094aa"
+        ],
+        "x": 1105,
+        "y": 340,
+        "wires": [
+            [
+                "7d1b1708b0dbeea2"
+            ]
+        ]
+    },
+    {
+        "id": "9318b832c48d2580",
+        "type": "link call",
+        "z": "1549c8010dfcd079",
+        "g": "81c6b18a0a7ff777",
+        "name": "",
+        "links": [
+            "ce9ed35ac9b011cd"
+        ],
+        "timeout": "30",
+        "x": 1420,
+        "y": 360,
+        "wires": [
+            [
+                "598ff0f9f1dfaf9f",
+                "14a9051fe8a61915"
+            ]
+        ]
+    },
+    {
+        "id": "c64e6f6da06c4d1d",
+        "type": "comment",
+        "z": "1549c8010dfcd079",
+        "g": "81c6b18a0a7ff777",
+        "name": "Action MSG Event Listener",
+        "info": "",
+        "x": 970,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "58ae79aabd592218",
+        "type": "switch",
+        "z": "1549c8010dfcd079",
+        "g": "81c6b18a0a7ff777",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lte",
+                "v": "scale-thres",
+                "vt": "flow"
+            },
+            {
+                "t": "lt",
+                "v": "actionGoal",
+                "vt": "msg"
+            },
+            {
+                "t": "gte",
+                "v": "actionGoal",
+                "vt": "msg"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 3,
+        "x": 1410,
+        "y": 460,
+        "wires": [
+            [
+                "5b58def28c5773ab"
+            ],
+            [
+                "9318b832c48d2580"
+            ],
+            [
+                "9883cf25ef8be3a9"
+            ]
+        ]
+    },
+    {
+        "id": "7d1b1708b0dbeea2",
+        "type": "function",
+        "z": "1549c8010dfcd079",
+        "g": "81c6b18a0a7ff777",
+        "name": "PrepareLoop",
+        "func": "msg.actionGoal = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1210,
+        "y": 360,
+        "wires": [
+            [
+                "9318b832c48d2580"
+            ]
+        ]
+    },
+    {
+        "id": "9883cf25ef8be3a9",
+        "type": "debug",
+        "z": "1549c8010dfcd079",
+        "g": "81c6b18a0a7ff777",
+        "name": "Door Close",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1630,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "f066b70f7423db29",
+        "type": "inject",
+        "z": "1549c8010dfcd079",
+        "g": "81c6b18a0a7ff777",
+        "name": "TC: Inject Action Goal",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "10",
+        "payloadType": "num",
+        "x": 1020,
+        "y": 380,
+        "wires": [
+            [
+                "7d1b1708b0dbeea2"
+            ]
+        ]
+    },
+    {
+        "id": "598ff0f9f1dfaf9f",
+        "type": "debug",
+        "z": "1549c8010dfcd079",
+        "g": "81c6b18a0a7ff777",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1630,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "5b58def28c5773ab",
+        "type": "function",
+        "z": "1549c8010dfcd079",
+        "g": "81c6b18a0a7ff777",
+        "name": "Publish Error \"Food container empty\"",
+        "func": "const uname = flow.get('mqtt-uname');\nconst cid = flow.get('mqtt-cid');\n\nmsg.topic = `users/${uname}/${cid}/error`;\nmsg.payload = \"Food container empty\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1710,
+        "y": 420,
+        "wires": [
+            [
+                "09d06466ea6064c5"
+            ]
+        ]
+    },
+    {
+        "id": "09d06466ea6064c5",
+        "type": "mqtt out",
+        "z": "1549c8010dfcd079",
+        "g": "81c6b18a0a7ff777",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "90fcd8de4a4abf8c",
+        "x": 1930,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "edb4612ec2786b36",
+        "type": "mqtt out",
+        "z": "1549c8010dfcd079",
+        "g": "81c6b18a0a7ff777",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "90fcd8de4a4abf8c",
+        "x": 1410,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "14a9051fe8a61915",
+        "type": "function",
+        "z": "1549c8010dfcd079",
+        "g": "81c6b18a0a7ff777",
+        "name": "CountUnchanged",
+        "func": "if(!msg.prev) {\n    msg.prev = msg.payload;\n}\n\nif(!msg.count) {\n    msg.count = 0;\n}\n\nif(Math.abs(msg.payload - msg.prev) < flow.get('scale-error')) {\n    msg.count++;\n}\n\nif(msg.count < 10) {\n    msg.prev = msg.payload;\n\n    return [msg, null];\n} else {\n    msg.topic = `users/${flow.get('mqtt-uname')}/${flow.get('mqtt-cid')}/error`;\n    msg.payload = \"Food container stuck\";\n\n    return [null, msg];\n}",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1230,
+        "y": 500,
+        "wires": [
+            [
+                "58ae79aabd592218"
+            ],
+            [
+                "edb4612ec2786b36"
+            ]
+        ]
+    },
+    {
+        "id": "9ff3e36c94fc8483",
+        "type": "comment",
+        "z": "1549c8010dfcd079",
+        "g": "81c6b18a0a7ff777",
+        "name": "Serve Food",
+        "info": "",
+        "x": 930,
+        "y": 280,
         "wires": []
     }
 ]

@@ -6,5 +6,7 @@
     "http-port":    "1880",
     "device-name":  "Test Device",
     "device-type":  3,
-    "scale-topic":  "water"
+    "scale-topic":  "water",
+    "scale-thres":  10,
+    "scale-error":  3
 }
