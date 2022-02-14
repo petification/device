@@ -1,0 +1,194 @@
+[
+    {
+        "id": "1549c8010dfcd079",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "dfc8744e.285418",
+        "type": "tab",
+        "label": "Example usage of dynamic mqtt node (digitaloak-mqtt-in)",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "cfc29aa6332ee951",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "90fcd8de4a4abf8c",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "8883",
+        "tls": "cfc29aa6332ee951",
+        "clientid": "unused",
+        "autoConnect": false,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "1",
+        "birthRetain": "true",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "1",
+        "closeRetain": "true",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "1",
+        "willRetain": "true",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "311f12a4.3d2b9e",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mqtt",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "44c53352041184d0",
+        "type": "inject",
+        "z": "1549c8010dfcd079",
+        "name": "",
+        "props": [
+            {
+                "p": "conn.broker",
+                "v": "petificationblue.ddns.net",
+                "vt": "str"
+            },
+            {
+                "p": "conn.port",
+                "v": "8883",
+                "vt": "str"
+            },
+            {
+                "p": "conn.force",
+                "v": "true",
+                "vt": "bool"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 90,
+        "y": 60,
+        "wires": [
+            [
+                "9056e8f911ae5bf5"
+            ]
+        ]
+    },
+    {
+        "id": "9056e8f911ae5bf5",
+        "type": "http request",
+        "z": "1549c8010dfcd079",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://petificationblue.ddns.net:1880/device/test-device/3",
+        "tls": "cfc29aa6332ee951",
+        "persist": false,
+        "proxy": "",
+        "authType": "bearer",
+        "senderr": false,
+        "x": 250,
+        "y": 60,
+        "wires": [
+            [
+                "9e344bb29a3015bd"
+            ]
+        ]
+    },
+    {
+        "id": "9bd27b21e3bcfa15",
+        "type": "debug",
+        "z": "1549c8010dfcd079",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "broker",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "9e344bb29a3015bd",
+        "type": "function",
+        "z": "1549c8010dfcd079",
+        "name": "ConnectMQTT",
+        "func": "msg.action = \"connect\";\n\nconst CID = JSON.parse(msg.payload).uuid;\nconst USERNAME = \"petification\";\n\nconst setting = {\n    \n    // Basic host setting\n    \"broker\": \"petificationblue.ddns.net\",\n    \"port\": \"8883\",\n    \"clientid\": CID,\n    \n    // Boolean setting\n    \"force\": true,\n    \n    // Birth setting\n    \"birthTopic\": `users/${USERNAME}/${CID}/conn`,\n    \"birthQos\": \"1\",\n    \"birthRetain\": \"true\",\n    \"birthPayload\": `Device connected`,\n    \n    // Close setting\n    \"closeTopic\": `users/${USERNAME}/${CID}/disconn`,\n    \"closeQos\": \"1\",\n    \"closeRetain\": \"true\",\n    \"closePayload\": `Device disconnected`,\n\n    // Will setting\n    \"willTopic\": `users/${USERNAME}/${CID}/error`,\n    \"willQos\": \"1\",\n    \"willRetain\": \"true\",\n    \"willPayload\": `Device disconnected unexpectedly`,\n};\n\nmsg.broker = setting;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 60,
+        "wires": [
+            [
+                "59ba8900f8e6cb2c",
+                "9bd27b21e3bcfa15"
+            ]
+        ]
+    },
+    {
+        "id": "59ba8900f8e6cb2c",
+        "type": "mqtt out",
+        "z": "1549c8010dfcd079",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "90fcd8de4a4abf8c",
+        "x": 610,
+        "y": 60,
+        "wires": []
+    }
+]
