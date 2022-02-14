@@ -8,6 +8,58 @@
         "env": []
     },
     {
+        "id": "fabd971393b8dcec",
+        "type": "group",
+        "z": "1549c8010dfcd079",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "44c53352041184d0",
+            "9056e8f911ae5bf5",
+            "88f52463bfa7440d",
+            "8c4de33649991db9",
+            "04a4117bab063133",
+            "ade4f64e2af94b02",
+            "4a09b3b8316012c7"
+        ],
+        "x": 34,
+        "y": 19,
+        "w": 772,
+        "h": 322
+    },
+    {
+        "id": "6c9c27cd818b31d9",
+        "type": "group",
+        "z": "1549c8010dfcd079",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "9bd27b21e3bcfa15",
+            "9e344bb29a3015bd",
+            "59ba8900f8e6cb2c",
+            "f85036e9a20687e5",
+            "0e23ffa4e5d57441"
+        ],
+        "x": 34,
+        "y": 359,
+        "w": 592,
+        "h": 162
+    },
+    {
         "id": "cfc29aa6332ee951",
         "type": "tls-config",
         "name": "",
@@ -55,6 +107,7 @@
         "id": "44c53352041184d0",
         "type": "inject",
         "z": "1549c8010dfcd079",
+        "g": "fabd971393b8dcec",
         "name": "",
         "props": [],
         "repeat": "",
@@ -62,11 +115,11 @@
         "once": true,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 90,
-        "y": 60,
+        "x": 130,
+        "y": 100,
         "wires": [
             [
-                "04a4117bab063133"
+                "ade4f64e2af94b02"
             ]
         ]
     },
@@ -74,6 +127,7 @@
         "id": "9056e8f911ae5bf5",
         "type": "http request",
         "z": "1549c8010dfcd079",
+        "g": "fabd971393b8dcec",
         "name": "",
         "method": "use",
         "ret": "txt",
@@ -84,8 +138,8 @@
         "proxy": "",
         "authType": "bearer",
         "senderr": false,
-        "x": 430,
-        "y": 60,
+        "x": 490,
+        "y": 220,
         "wires": [
             [
                 "88f52463bfa7440d"
@@ -96,6 +150,7 @@
         "id": "9bd27b21e3bcfa15",
         "type": "debug",
         "z": "1549c8010dfcd079",
+        "g": "6c9c27cd818b31d9",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -105,14 +160,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 490,
-        "y": 200,
+        "x": 510,
+        "y": 440,
         "wires": []
     },
     {
         "id": "9e344bb29a3015bd",
         "type": "function",
         "z": "1549c8010dfcd079",
+        "g": "6c9c27cd818b31d9",
         "name": "ConnectMQTT",
         "func": "msg.action = \"connect\";\n\nconst CID = flow.get('mqtt-cid');\nconst USERNAME = flow.get('mqtt-uname');\n\nconst setting = {\n    \n    // Basic host setting\n    \"broker\": flow.get('mqtt-broker'),\n    \"port\": flow.get('mqtt-port'),\n    \"clientid\": CID,\n    \n    // Boolean setting\n    \"force\": true,\n    \n    // Birth setting\n    \"birthTopic\": `users/${USERNAME}/${CID}/conn`,\n    \"birthQos\": \"1\",\n    \"birthRetain\": \"true\",\n    \"birthPayload\": `Device connected`,\n    \n    // Close setting\n    \"closeTopic\": `users/${USERNAME}/${CID}/disconn`,\n    \"closeQos\": \"1\",\n    \"closeRetain\": \"true\",\n    \"closePayload\": `Device disconnected`,\n\n    // Will setting\n    \"willTopic\": `users/${USERNAME}/${CID}/error`,\n    \"willQos\": \"1\",\n    \"willRetain\": \"true\",\n    \"willPayload\": `Device disconnected unexpectedly`,\n};\n\nmsg.broker = setting;\n\nreturn msg;",
         "outputs": 1,
@@ -120,8 +176,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 300,
-        "y": 140,
+        "x": 320,
+        "y": 440,
         "wires": [
             [
                 "59ba8900f8e6cb2c",
@@ -133,6 +189,7 @@
         "id": "59ba8900f8e6cb2c",
         "type": "mqtt out",
         "z": "1549c8010dfcd079",
+        "g": "6c9c27cd818b31d9",
         "name": "",
         "topic": "",
         "qos": "",
@@ -143,23 +200,24 @@
         "correl": "",
         "expiry": "",
         "broker": "90fcd8de4a4abf8c",
-        "x": 470,
-        "y": 140,
+        "x": 490,
+        "y": 480,
         "wires": []
     },
     {
         "id": "88f52463bfa7440d",
         "type": "function",
         "z": "1549c8010dfcd079",
+        "g": "fabd971393b8dcec",
         "name": "SaveCid",
-        "func": "msg.settings['mqtt-cid'] = JSON.parse(msg.payload).uuid;\n\nfor(let prop in msg.settings) {\n    flow.set(prop, msg.settings[prop]);\n}\n\nreturn msg;",
+        "func": "const cid = JSON.parse(msg.payload).uuid;\n\nmsg.settings['mqtt-cid'] = cid;\nflow.set('mqtt-cid', cid);\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 600,
-        "y": 60,
+        "x": 580,
+        "y": 260,
         "wires": [
             [
                 "8c4de33649991db9"
@@ -170,6 +228,7 @@
         "id": "8c4de33649991db9",
         "type": "debug",
         "z": "1549c8010dfcd079",
+        "g": "fabd971393b8dcec",
         "name": "ShowSettings",
         "active": true,
         "tosidebar": true,
@@ -179,21 +238,22 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 780,
-        "y": 60,
+        "x": 680,
+        "y": 300,
         "wires": []
     },
     {
         "id": "f85036e9a20687e5",
         "type": "complete",
         "z": "1549c8010dfcd079",
+        "g": "6c9c27cd818b31d9",
         "name": "",
         "scope": [
             "8c4de33649991db9"
         ],
         "uncaught": false,
-        "x": 110,
-        "y": 140,
+        "x": 130,
+        "y": 440,
         "wires": [
             [
                 "9e344bb29a3015bd"
@@ -204,19 +264,62 @@
         "id": "04a4117bab063133",
         "type": "function",
         "z": "1549c8010dfcd079",
-        "name": "SaveSettings",
-        "func": "const settings = {\n    'mqtt-broker':  'petificationblue.ddns.net',\n    'mqtt-port':    '8883',\n    'mqtt-uname':   'petification',\n    'http-host':    'petificationblue.ddns.net',\n    'http-port':    '1880',\n    'device-name':  'test-device',\n    'device-type':  3,\n}\n\nmsg.method = \"POST\";\nmsg.url = `https://${settings['http-host']}:${settings['http-port']}/device/${settings['device-name']}/${settings['device-type']}`;\nmsg.settings = settings;\n\nreturn msg;",
+        "g": "fabd971393b8dcec",
+        "name": "LoadSettings",
+        "func": "msg.settings = JSON.parse(msg.payload)\n\nif (msg.settings['http-host']\n    || msg.settings['http-port']\n    || msg.settings['device-name']\n    || msg.settings['device-type']) {\n\n        for(let prop in msg.settings) {\n            flow.set(prop, msg.settings[prop]);\n        }\n\n        msg.method = \"POST\";\n        msg.url = `https://${msg.settings['http-host']}:${msg.settings['http-port']}/device/${msg.settings['device-name']}/${msg.settings['device-type']}`;\n\n        node.send(msg);\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 250,
-        "y": 60,
+        "x": 390,
+        "y": 180,
         "wires": [
             [
                 "9056e8f911ae5bf5"
             ]
         ]
+    },
+    {
+        "id": "ade4f64e2af94b02",
+        "type": "file in",
+        "z": "1549c8010dfcd079",
+        "g": "fabd971393b8dcec",
+        "name": "",
+        "filename": ".node-red/settings.json",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 250,
+        "y": 140,
+        "wires": [
+            [
+                "04a4117bab063133"
+            ]
+        ]
+    },
+    {
+        "id": "4a09b3b8316012c7",
+        "type": "comment",
+        "z": "1549c8010dfcd079",
+        "g": "fabd971393b8dcec",
+        "name": "Load Local Settings",
+        "info": "",
+        "x": 150,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "0e23ffa4e5d57441",
+        "type": "comment",
+        "z": "1549c8010dfcd079",
+        "g": "6c9c27cd818b31d9",
+        "name": "Setup MQTT",
+        "info": "",
+        "x": 130,
+        "y": 400,
+        "wires": []
     }
 ]
