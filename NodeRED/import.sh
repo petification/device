@@ -12,4 +12,13 @@ case "$cmd" in
         cp ~/.node-red/settings.js ./settings.js
         ;;
 
+    --setup)
+        cp ~/.node-red/settings.json ./settings.json
+        ;;
+
+    *)
+        echo "Unknown command '$cmd'"
+        exit 1
+        ;;
+
 esac

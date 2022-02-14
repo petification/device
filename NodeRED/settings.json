@@ -1,0 +1,9 @@
+{
+    "mqtt-broker":  "petificationblue.ddns.net",
+    "mqtt-port":    "8883",
+    "mqtt-uname":   "petification",
+    "http-host":    "petificationblue.ddns.net",
+    "http-port":    "1880",
+    "device-name":  "test-device",
+    "device-type":  3
+}
