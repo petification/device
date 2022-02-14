@@ -4,7 +4,7 @@
     "mqtt-uname":   "petification",
     "http-host":    "petificationblue.ddns.net",
     "http-port":    "1880",
-    "device-name":  "test-device",
+    "device-name":  "Test Device",
     "device-type":  3,
     "scale-topic":  "water"
 }

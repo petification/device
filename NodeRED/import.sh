@@ -9,10 +9,6 @@ case "$cmd" in
         ;;
 
     --settings)
-        cp ~/.node-red/settings.js ./settings.js
-        ;;
-
-    --setup)
         cp ~/.node-red/settings.json ./settings.json
         ;;
 
