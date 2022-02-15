@@ -9,7 +9,7 @@ case "$cmd" in
         ;;
 
     --settings)
-        cp ~/.node-red/settings.json ./settings.json
+        cp ~/.node-red/settings.js ./settings.js
         ;;
 
     *)

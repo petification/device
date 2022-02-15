@@ -9,9 +9,9 @@ case "$cmd" in
         cp ./flows.json ~/.node-red/flows.json
         ;;
 
-        --settings)
-        rm -rf ~/.node-red/settings.json
-        cp ./settings.json ~/.node-red/settings.json
+    --settings)
+        rm -rf ~/.node-red/settings.js
+        cp ./settings.js ~/.node-red/settings.js
         ;;
 
     *)
