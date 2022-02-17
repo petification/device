@@ -1124,7 +1124,6 @@
         "y": 760,
         "wires": [
             [
-                "fd356da56f91da45",
                 "c322acb6f61a5265",
                 "692dc02954135cc2"
             ]
@@ -1661,7 +1660,7 @@
         "z": "1549c8010dfcd079",
         "g": "c5474316e98e3fc5",
         "name": "Error Detecting",
-        "func": "var bowl = msg.topic.bowl;\nvar container = msg.topic.container;\n\nif ((bowl + container) <= 10) {\n    \n    msg.paylaod = \"There is not enough Food! Empty food!!\";\n    msg.topic = `users/${global.get('settings').mqttUname}/${global.get('settings').mqttCid}/error`;\n\n    \nreturn [msg,null,null];\n}\n\nelse {\nvar msg_bowl = {\n    topic: `users/${global.get('settings').mqttUname}/${global.get('settings').mqttCid}/scale/bowl`,\n    payload: bowl\n};\n\nvar msg_container = {\n    topic: `users/${global.get('settings').mqttUname}/${global.get('settings').mqttCid}/scale/container`,\n    payload: container\n};\n\nreturn [null, msg_bowl, msg_container];\n}",
+        "func": "var bowl = msg.topic.bowl;\nvar container = msg.topic.container;\n\nif ((bowl + container) <= 10) {\n    \n    msg.payload = \"There is not enough food.\";\n    msg.topic = `users/${global.get('settings').mqttUname}/${global.get('settings').mqttCid}/error`;\n    \n    return [msg,null,null];\n}\n\nelse {\n    \n    var msg_bowl = {\n        payload: bowl\n    };\n    \n    var msg_container = {\n        payload: container\n    };\n    \n    return [null, msg_bowl, msg_container];\n}",
         "outputs": 3,
         "noerr": 0,
         "initialize": "",
