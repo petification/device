@@ -1,0 +1,292 @@
+[
+    {
+        "id": "91b22263332ca448",
+        "type": "tab",
+        "label": "Water Dispenser",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6ea60e542635d375",
+        "type": "group",
+        "z": "91b22263332ca448",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "b760bfd2de446b59",
+            "7c31561450d0bb89",
+            "20d34e7859ba7b69",
+            "b5775117f0651db2",
+            "c580ade28bb5da35",
+            "7a9cff848f3bf24f",
+            "e3fd7a36b92f18af",
+            "3b9e16d644848de9",
+            "5d808a919b114222",
+            "82a1a3c0e190b5b1"
+        ],
+        "x": 14,
+        "y": 19,
+        "w": 1192,
+        "h": 202
+    },
+    {
+        "id": "b760bfd2de446b59",
+        "type": "function",
+        "z": "91b22263332ca448",
+        "g": "6ea60e542635d375",
+        "name": "",
+        "func": "//var count = flow.get('count')||0;\n//flow.set('count', count);\nvar newMsg = {payload: \"python -u /home/pi/Dashboard/user/hx711py/water.py\"};\nreturn newMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 120,
+        "wires": [
+            [
+                "7c31561450d0bb89"
+            ]
+        ]
+    },
+    {
+        "id": "7c31561450d0bb89",
+        "type": "exec",
+        "z": "91b22263332ca448",
+        "g": "6ea60e542635d375",
+        "command": "",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 550,
+        "y": 120,
+        "wires": [
+            [
+                "20d34e7859ba7b69"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "20d34e7859ba7b69",
+        "type": "smooth",
+        "z": "91b22263332ca448",
+        "g": "6ea60e542635d375",
+        "name": "",
+        "property": "payload",
+        "action": "max",
+        "count": "2",
+        "round": "",
+        "mult": "single",
+        "reduce": false,
+        "x": 700,
+        "y": 120,
+        "wires": [
+            [
+                "b5775117f0651db2"
+            ]
+        ]
+    },
+    {
+        "id": "b5775117f0651db2",
+        "type": "function",
+        "z": "91b22263332ca448",
+        "g": "6ea60e542635d375",
+        "name": "PrepareMQTTMSG",
+        "func": "msg.topic = `users/${global.get('settings').mqttUname}/${global.get('settings').mqttCid}/scale/water`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 120,
+        "wires": [
+            [
+                "7a9cff848f3bf24f",
+                "e3fd7a36b92f18af",
+                "3b9e16d644848de9"
+            ]
+        ]
+    },
+    {
+        "id": "c580ade28bb5da35",
+        "type": "comment",
+        "z": "91b22263332ca448",
+        "g": "6ea60e542635d375",
+        "name": "Water Scale ",
+        "info": "",
+        "x": 110,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "7a9cff848f3bf24f",
+        "type": "ui_text",
+        "z": "91b22263332ca448",
+        "g": "6ea60e542635d375",
+        "group": "7313086e394abe73",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Water",
+        "format": "{{msg.payload}} g",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1110,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "e3fd7a36b92f18af",
+        "type": "ui_gauge",
+        "z": "91b22263332ca448",
+        "g": "6ea60e542635d375",
+        "name": "",
+        "group": "7313086e394abe73",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "donut",
+        "title": "Water Gauge",
+        "label": "units",
+        "format": "{{value}} g",
+        "min": 0,
+        "max": "3750",
+        "colors": [
+            "#cd7a7e",
+            "#d4d468",
+            "#92d978"
+        ],
+        "seg1": "200",
+        "seg2": "500",
+        "className": "",
+        "x": 1110,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "3b9e16d644848de9",
+        "type": "mqtt out",
+        "z": "91b22263332ca448",
+        "g": "6ea60e542635d375",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "90fcd8de4a4abf8c",
+        "x": 1110,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "5d808a919b114222",
+        "type": "link in",
+        "z": "91b22263332ca448",
+        "g": "6ea60e542635d375",
+        "name": "Setting Loaded Event Listener",
+        "links": [
+            "0d9585d6a791bdec"
+        ],
+        "x": 295,
+        "y": 120,
+        "wires": [
+            [
+                "b760bfd2de446b59"
+            ]
+        ]
+    },
+    {
+        "id": "82a1a3c0e190b5b1",
+        "type": "comment",
+        "z": "91b22263332ca448",
+        "g": "6ea60e542635d375",
+        "name": "Setting Loaded Event Listener",
+        "info": "",
+        "x": 160,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "7313086e394abe73",
+        "type": "ui_group",
+        "name": "Dispenser",
+        "tab": "4fe2024624072970",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "90fcd8de4a4abf8c",
+        "type": "mqtt-broker",
+        "name": "Platform Server",
+        "broker": "petificationblue.ddns.net",
+        "port": "8883",
+        "tls": "cfc29aa6332ee951",
+        "clientid": "unused",
+        "autoConnect": false,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "1",
+        "birthRetain": "true",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "1",
+        "closeRetain": "true",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "1",
+        "willRetain": "true",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "4fe2024624072970",
+        "type": "ui_tab",
+        "name": "Water",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "cfc29aa6332ee951",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    }
+]
