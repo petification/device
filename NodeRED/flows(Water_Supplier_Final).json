@@ -969,7 +969,7 @@
         "z": "91b22263332ca448",
         "g": "870f5b4eeb091b1a",
         "name": "",
-        "func": "msg.payload = \"There is no water! Water empty!!\"; \nmsg.topic = `users/${global.get('settings').mqttUname}/${global.get('settings').mqttCid}/error`; \nreturn msg;",
+        "func": "msg.payload = \"There is no water.\"; \nmsg.topic = `users/${global.get('settings').mqttUname}/${global.get('settings').mqttCid}/error`; \nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
