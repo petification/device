@@ -420,14 +420,8 @@ module.exports = {
         // os:require('os'),
         "mqtt-broker":  "petificationblue.ddns.net",
         "mqtt-port":    "8883",
-        "mqtt-uname":   "petification",
         "http-host":    "petificationblue.ddns.net",
         "http-port":    "1880",
-        "device-name":  "Test Device",
-        "device-type":  3,
-        "scale-topic":  "water",
-        "scale-thres":  10,
-        "scale-error":  3
     },
 
     /** The maximum number of messages nodes will buffer internally as part of their
