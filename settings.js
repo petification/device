@@ -418,10 +418,10 @@ module.exports = {
      */
     functionGlobalContext: {
         // os:require('os'),
-        "mqtt-broker":  "petificationblue.ddns.net",
-        "mqtt-port":    "8883",
-        "http-host":    "petificationblue.ddns.net",
-        "http-port":    "1880",
+        "mqtt-broker":  "$MQTT_BROKER_HOST",
+        "mqtt-port":    "$MQTT_BROKER_PORT",
+        "http-host":    "$HTTP_SERVER_HOST",
+        "http-port":    "$HTTP_SERVER_PORT",
     },
 
     /** The maximum number of messages nodes will buffer internally as part of their

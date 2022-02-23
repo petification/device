@@ -1,0 +1,1 @@
+{"deviceName":"$DEVICE_NAME","deviceType":$DEVICE_TYPE,"httpToken":"$HTTP_TOKEN","mqttUname":"$MQTT_USERNAME","mqttCid":"$MQTT_CLIENT_ID"}
